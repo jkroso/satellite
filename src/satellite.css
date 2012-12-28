@@ -1,0 +1,16 @@
+.satellite {
+  position: absolute;
+  z-index: 1000;
+}
+
+/* effects */
+
+.satellite.fade {
+  transition: opacity 100ms;
+  -moz-transition: opacity 100ms;
+  -webkit-transition: opacity 100ms;
+}
+
+.satellite-hide {
+  opacity: 0;
+}

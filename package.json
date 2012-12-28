@@ -1,0 +1,25 @@
+{
+  "name": "satellite",
+  "version": "0.1.0",
+  "description": "Position a container around the edge of another",
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "laissez-faire": "*"
+  },
+  "scripts" : {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jkroso/satelite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jkroso/satelite/issues"
+  },
+  "keywords": ["tip"],
+  "author": "Jakeb Rosoman",
+  "license": "MIT"
+}

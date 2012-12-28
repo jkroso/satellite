@@ -1,0 +1,25 @@
+{
+  "name": "satellite",
+  "repo": "jkroso/satellite",
+  "description": "Position a container around the edge of another",
+  "version": "0.1.0",
+  "keywords": ["tip"],
+  "dependencies": {
+    "component/css": "*",
+    "jkroso/emitter": "*",
+    "jkroso/event-manager": "*",
+    "component/domify": "*",
+    "jkroso/viewport": "*",
+    "component/classes": "*",
+    "jkroso/position": "*"
+  },
+  "main": "src/index.js",
+  "scripts": [
+	  "src/index.js",
+    "src/template.js"
+  ],
+  "styles":[
+    "src/satellite.css"
+  ],
+  "license": "MIT"
+}
