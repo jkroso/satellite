@@ -8,7 +8,7 @@
     "component/css": "*",
     "jkroso/emitter": "*",
     "jkroso/event-manager": "*",
-    "component/domify": "*",
+    "jkroso/domify": "*",
     "jkroso/viewport": "*",
     "component/classes": "*",
     "jkroso/position": "*"
