@@ -18,6 +18,7 @@ module.exports = Satellite
  * @api public
  */
 function Satellite (content) {
+	Emitter.call(this)
 	this.view = domify(require('./template'))[0]
 	this.events = new EventManager(this.view, this)
 	this.classList = classes(this.view)
