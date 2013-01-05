@@ -11,19 +11,18 @@ var satelite = require('satellite')
 ```
   - [Satellite()](#satellite)
   - [Satellite.new()](#satellitenew)
-  - [proto](#proto)
-  - [proto.append()](#protoappendcontentstringelement)
-  - [proto.attach()](#protoattachelelementdelaynumber)
-  - [proto.appendTo()](#protoappendtoelementelement)
-  - [proto.cancelHideOnHover()](#protocancelhideonhoverdelaynumber)
-  - [proto.effect()](#protoeffecttypestring)
-  - [proto.prefer()](#protoprefertypestring)
-  - [proto.orbit()](#protoorbitxobjectelementnumberynumber)
-  - [proto.show()](#protoshow)
-  - [proto.hide()](#protohidemsnumber)
-  - [proto.remove()](#protoremove)
+  - [Satellite.append()](#satelliteappendcontentstringelement)
+  - [Satellite.attach()](#satelliteattachelelementdelaynumber)
+  - [Satellite.appendTo()](#satelliteappendtoelementelement)
+  - [Satellite.cancelHideOnHover()](#satellitecancelhideonhoverdelaynumber)
+  - [Satellite.effect()](#satelliteeffecttypestring)
+  - [Satellite.prefer()](#satelliteprefertypestring)
+  - [Satellite.orbit()](#satelliteorbitxobjectelementnumberynumber)
+  - [Satellite.show()](#satelliteshow)
+  - [Satellite.hide()](#satellitehidemsnumber)
+  - [Satellite.remove()](#satelliteremove)
 
-## Satellite()
+### Satellite()
 
   Initialize a `Satellite` with the given `content`.
   
@@ -31,37 +30,35 @@ var satelite = require('satellite')
 new Satellite('moon')
 ```
 
-## Satellite.new()
+### Satellite.new()
 
   Alternative constructor
 
-## proto
-
-  Inherits from `Emitter.prototype`.
-
-## proto.append(content:String|Element)
+### Satellite.append(content:String|Element)
 
   Insert content into the satellite's body
 
-## proto.attach(el:Element, delay:Number)
+### Satellite.attach(el:Element, delay:Number)
 
   Attach to the given `el` with optional hide `delay`.
 
-## proto.appendTo(element:Element)
+### Satellite.appendTo(element:Element)
 
   Insert the satellite as a child
 
-## proto.cancelHideOnHover(delay:Number)
+### Satellite.cancelHideOnHover(delay:Number)
 
   Cancel hide on hover, hide with the given `delay`.
 
-## proto.effect([type]:String)
+### Satellite.effect([type]:String)
 
   Get current effect or set the effect to `type`.
+  
+   - `fade`
 
-## proto.prefer(type:String)
+### Satellite.prefer(type:String)
 
-  Set position `type`:
+  Set position preference:
   
    - `north`
    - `north east`
@@ -72,23 +69,41 @@ new Satellite('moon')
    - `east`
    - `west`
 
-## proto.orbit(x:Object|Element|Number, [y]:Number)
+### Satellite.orbit(x:Object|Element|Number, [y]:Number)
 
   Calculate or set the target area
+  
+  To target an element:
+```js
+var target = document.querySelector('#target')
+satellite.orbit(target)
+```
 
-## proto.show()
+    
+  To specify an explit target area:
+```js
+satellite.orbit(target.getBoundingClientRects())
+```
+
+    
+  To specify a point:
+```js
+satellite.orbit(100, 100)
+```
+
+### Satellite.show()
 
   Show the Satellite attached to `el`.
   
   Emits "show" (el) event.
 
-## proto.hide(ms:Number)
+### Satellite.hide(ms:Number)
 
   Hide the Satellite with optional `ms` delay.
   
   Emits "hide" event.
 
-## proto.remove()
+### Satellite.remove()
 
   Hide then destroy
 ## Basic Usage

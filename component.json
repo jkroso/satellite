@@ -6,8 +6,7 @@
   "keywords": ["tip"],
   "dependencies": {
     "component/css": "*",
-    "jkroso/emitter": "0.5.0",
-    "jkroso/event-manager": "*",
+    "jkroso/dom-emitter": "*",
     "jkroso/domify": "*",
     "jkroso/viewport": "*",
     "component/classes": "*",

@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "description": "Position a container around the edge of another",
   "main": "src/index.js",
-  "dependencies": {},
-  "devDependencies": {
-    "mocha": "*",
-    "chai": "*",
-    "laissez-faire": "*"
+  "dependencies": {
+    "css": "https://github.com/jkroso/css/tarball/patch-1",
+    "classes": "https://github.com/jkroso/classes/tarball/patch-1",
+    "dom-emitter": "https://github.com/jkroso/dom-emitter/tarball/master",
+    "domify": "https://github.com/jkroso/domify/tarball/master",
+    "viewport": "https://github.com/jkroso/viewport/tarball/master",
+    "position": "https://github.com/jkroso/position/tarball/master"
   },
+  "devDependencies": {},
   "scripts" : {
     "test": "make test"
   },

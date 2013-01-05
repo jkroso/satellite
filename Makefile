@@ -1,20 +1,20 @@
-all: clean install build test docs
+all: build Readme.md
 
 install:
 	@component install -d
 
 build:
-	@component build -d -v
-
-test:
-	@google-chrome test/index.html
+	@component build -dv
 
 clean:
 	@rm -rf build components
 
-docs:
+Readme.md: src/* docs/head.md docs/tail.md
 	@cat docs/head.md > Readme.md
-	@dox --api < src/index.js >> Readme.md
+	@cat src/index.js\
+	 | sed s/.*=.$$//\
+	 | sed s/proto\./Satellite.prototype./\
+	 | dox -a | sed s/^\#\#/\#\#\#/ >> Readme.md
 	@cat docs/tail.md >> Readme.md
 
-.PHONY: all build test clean docs
+.PHONY: clean all build install

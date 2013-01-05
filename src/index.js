@@ -1,5 +1,4 @@
-var Emitter = require('emitter')
-  , EventManager = require('event-manager')
+var DomEmitter = require('dom-emitter')
   , domify = require('domify')
   , viewPort = require('viewport')
   , css = require('css')
@@ -18,9 +17,8 @@ module.exports = Satellite
  * @api public
  */
 function Satellite (content) {
-	Emitter.call(this)
 	this.view = domify(require('./template'))[0]
-	this.events = new EventManager(this.view, this)
+	DomEmitter.call(this)
 	this.classList = classes(this.view)
 	if (content != null) this.append(content)
 	if (Satellite.effect) this.effect(Satellite.effect)
@@ -38,7 +36,7 @@ Satellite.new = function (content) {return new this(content)}
  * Inherits from `Emitter.prototype`.
  */
 
-var proto = Satellite.prototype = Object.create(Emitter.prototype)
+var proto = Satellite.prototype = Object.create(DomEmitter.prototype)
 proto.constructor = Satellite
 
 /**
@@ -71,7 +69,7 @@ proto.append = function (content) {
  */
 proto.attach = function(el, delay){
 	this.orbit(el)
-	var events = this._targetEvents = new EventManager(el, this)
+	var events = this._targetEvents = new DomEmitter(el, this)
 	events.on('mouseover', function(){
 		this.show()
 		this.cancelHide()
@@ -114,8 +112,8 @@ proto.cache = function () {
  * @api public
  */
 proto.cancelHideOnHover = function(delay){
-	this.events.on('mouseover', 'cancelHide')
-	this.events.on('mouseout', function () {
+	this.on('mouseover', 'cancelHide')
+	this.on('mouseout', function () {
 		this.hide(delay)
 	})
 	return this
@@ -124,9 +122,10 @@ proto.cancelHideOnHover = function(delay){
 /**
  * Get current effect or set the effect to `type`.
  *
+ *  - `fade`
+ *
  * @param {String} [type]
  * @return {Self}
- * @api public
  */
 proto.effect = function(type){
 	if (type == null) return this._effect
@@ -136,7 +135,7 @@ proto.effect = function(type){
 }
 
 /**
- * Set position `type`:
+ * Set position preference:
  *
  *  - `north`
  *  - `north east`
@@ -149,7 +148,6 @@ proto.effect = function(type){
  *
  * @param {String} type
  * @return {Self}
- * @api public
  */
 proto.prefer = function(type){
 	var types = (type).match(/(south|north)?\s*(east|west)?/)
@@ -163,6 +161,16 @@ proto.prefer = function(type){
 
 /**
  * Calculate or set the target area
+ *
+ * To target an element:
+ *   var target = document.querySelector('#target')
+ *   satellite.orbit(target)
+ *   
+ * To specify an explit target area:
+ *   satellite.orbit(target.getBoundingClientRects())
+ *   
+ * To specify a point:
+ *   satellite.orbit(100, 100)
  * 
  * @param  {Object|Element|Number} x
  * @param {Number} [y] if x is a number y should also be specified
@@ -170,6 +178,7 @@ proto.prefer = function(type){
  */
 proto.orbit = function (x, y) {
 	var box
+	delete this._target
 	if (y == null) {
 		if (x instanceof Element) {
 			this._target = x
@@ -179,7 +188,6 @@ proto.orbit = function (x, y) {
 			box = x
 		}
 	} else {
-		delete this._target
 		// Is an explicit cord
 		box = {
 			left: x,
@@ -200,7 +208,6 @@ proto.orbit = function (x, y) {
  * Emits "show" (el) event.
  *
  * @return {Self}
- * @api public
  */
 proto.show = function () {
 	this.classList.remove('satellite-hide')
@@ -226,11 +233,10 @@ proto.onResize = function (e) {
 }
 
 /**
- * Apply the position. Recalculate if Satellite is off screen
+ * Apply the position
  *
  * @api private
  */
-
 proto.reposition = function(){
 	// Default all properties to auto
 	var style = {left:'auto', top:'auto', right:'auto', bottom: 'auto'}
@@ -249,7 +255,8 @@ proto.reposition = function(){
 }
 
 /**
- * Compute the optimal positioning
+ * Compute the optimal positioning so as to maximise the area of the satellite
+ * shown on screen while respecting the prefered location if there is enough room
  *
  * @return {Object} {top, left, bottom, right, suggestion}
  * @api private
@@ -411,10 +418,7 @@ proto.hide = function (ms){
  * @api
  */
 proto.remove = function(ms){
-	this.on('hide', function () {
-		this.off()
-		this.events.clear()
-	}, this)
+	this.on('hide', 'clear')
 	this.hide(ms)
 	return this
 }
