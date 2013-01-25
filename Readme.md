@@ -1,6 +1,6 @@
 # satellite
 
-Position a container around the edge of another. The screenshot below shows all its positioning options. I have added basic styling in the screenshot to make the satellites visible. However out of the box it comes with no styling opinions. This project is based off component/tip which I found to be widely useful outside of tooltips. This is an extraction of the core functionality from that project, enhanced to suit my more general use cases.
+Position a container around the edge of another. The screenshot below shows all its positioning options. I have added basic styling in the screenshot to make the satellites visible. However out of the box it comes with no styling opinions. This project is based off component/tip which I found to be widely useful outside of tooltips. This is an extraction of the core functionality from that project, enhanced to suit my more general use cases. For an example use case [see](jkroso.github.com/contextmenu)
 
 ![screenshot](https://raw.github.com/jkroso/satellite/master/Screenshot.png)
 
@@ -106,9 +106,6 @@ satellite.orbit(100, 100)
 ### Satellite.remove()
 
   Hide then destroy
-## Basic Usage
-
-See `test/demo.js`
 
 ## Contributing
 Please do! And any thoughts you have I'd love to here them. Just use the issue tracker.

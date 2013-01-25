@@ -1,6 +1,3 @@
-## Basic Usage
-
-See `test/demo.js`
 
 ## Contributing
 Please do! And any thoughts you have I'd love to here them. Just use the issue tracker.
