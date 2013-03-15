@@ -1,3 +1,4 @@
+
 var DomEmitter = require('dom-emitter')
   , domify = require('domify')
   , viewPort = require('viewport')
@@ -5,6 +6,7 @@ var DomEmitter = require('dom-emitter')
   , classes = require('classes')
   , position = require('position')
   , container = position.container
+  , tmpl = require('./template')
 
 module.exports = Satellite
 
@@ -16,9 +18,10 @@ module.exports = Satellite
  * @param {Mixed} content
  * @api public
  */
+
 function Satellite (content) {
-	this.view = domify(require('./template'))[0]
-	DomEmitter.call(this)
+	this.view = domify(tmpl)
+	this.events = new DomEmitter(this.view, this)
 	this.classList = classes(this.view)
 	if (content != null) this.append(content)
 	if (Satellite.effect) this.effect(Satellite.effect)
@@ -27,17 +30,11 @@ function Satellite (content) {
 }
 
 /**
- * Alternative constructor
- * @return {Satellite}
- */
-Satellite.new = function (content) {return new this(content)}
-
-/**
  * Inherits from `Emitter.prototype`.
  */
 
-var proto = Satellite.prototype = Object.create(DomEmitter.prototype)
-proto.constructor = Satellite
+Satellite.prototype = Object.create(DomEmitter.prototype)
+Satellite.prototype.constructor = Satellite
 
 /**
  * Insert content into the satellite's body
@@ -46,16 +43,13 @@ proto.constructor = Satellite
  * @return {Self}
  */
 
-proto.append = function (content) {
+
+Satellite.prototype.append = function (content) {
 	var view = this.view
-	if (typeof content === 'string') {
-		domify(content).forEach(function (node) {
-			view.appendChild(node)
-		})
+	if (typeof content == 'string') {
+		content = domify(content)
 	}
-	else if (content instanceof Element) {
-		view.appendChild(content)
-	}
+	view.appendChild(content)
 	return this
 }
 
@@ -67,7 +61,8 @@ proto.append = function (content) {
  * @return {Self}
  * @api public
  */
-proto.attach = function(el, delay){
+
+Satellite.prototype.attach = function(el, delay){
 	this.orbit(el)
 	var events = this._targetEvents = new DomEmitter(el, this)
 	events.on('mouseover', function(){
@@ -86,7 +81,8 @@ proto.attach = function(el, delay){
  * @param {Element} element which will be the satellite's parent
  * @return {Self}
  */
-proto.appendTo = function (el) {
+
+Satellite.prototype.appendTo = function (el) {
 	el.appendChild(this.view)
 	this.cache()
 	return this
@@ -98,7 +94,8 @@ proto.appendTo = function (el) {
  * @return {Self}
  * @api private
  */
-proto.cache = function () {
+
+Satellite.prototype.cache = function () {
 	this._container = container(this.view)
 	this.width = this.view.offsetWidth
 	this.height = this.view.offsetHeight
@@ -111,9 +108,10 @@ proto.cache = function () {
  * @return {Self}
  * @api public
  */
-proto.cancelHideOnHover = function(delay){
-	this.on('mouseover', 'cancelHide')
-	this.on('mouseout', function () {
+
+Satellite.prototype.cancelHideOnHover = function(delay){
+	this.events.on('mouseover', 'cancelHide')
+	this.events.on('mouseout', function () {
 		this.hide(delay)
 	})
 	return this
@@ -127,7 +125,8 @@ proto.cancelHideOnHover = function(delay){
  * @param {String} [type]
  * @return {Self}
  */
-proto.effect = function(type){
+
+Satellite.prototype.effect = function(type){
 	if (type == null) return this._effect
 	if (this._effect) this.classList.remove(this._effect)
 	this.classList.add(this._effect = type)
@@ -149,7 +148,8 @@ proto.effect = function(type){
  * @param {String} type
  * @return {Self}
  */
-proto.prefer = function(type){
+
+Satellite.prototype.prefer = function(type){
 	var types = (type).match(/(south|north)?\s*(east|west)?/)
 	if (!types) throw new Error('Invalid position type')
 	this._preference = type
@@ -176,7 +176,8 @@ proto.prefer = function(type){
  * @param {Number} [y] if x is a number y should also be specified
  * @return {Self}
  */
-proto.orbit = function (x, y) {
+
+Satellite.prototype.orbit = function (x, y) {
 	var box
 	delete this._target
 	if (y == null) {
@@ -209,7 +210,8 @@ proto.orbit = function (x, y) {
  *
  * @return {Self}
  */
-proto.show = function () {
+
+Satellite.prototype.show = function () {
 	this.classList.remove('satellite-hide')
 
 	viewPort.on('resize', this.onResize, this)
@@ -224,7 +226,8 @@ proto.show = function () {
  * Handler for resize events
  * @api private
  */
-proto.onResize = function (e) {
+
+Satellite.prototype.onResize = function (e) {
 	// Target node might of changed size
 	if (this._target) this.orbit(this._target)
 	// as might its container
@@ -237,7 +240,8 @@ proto.onResize = function (e) {
  *
  * @api private
  */
-proto.reposition = function(){
+
+Satellite.prototype.reposition = function(){
 	// Default all properties to auto
 	var style = {left:'auto', top:'auto', right:'auto', bottom: 'auto'}
 	var offset = this.suggest()
@@ -261,7 +265,8 @@ proto.reposition = function(){
  * @return {Object} {top, left, bottom, right, suggestion}
  * @api private
  */
-proto.suggest = function(){
+
+Satellite.prototype.suggest = function(){
 	var top = viewPort.top
 	  , left = viewPort.left
 	  , right = viewPort.right
@@ -298,6 +303,7 @@ proto.suggest = function(){
  * @param {String} pos
  * @api private
  */
+
 function setClass (sat, pos) {
 	sat.classList
 		.remove(sat._posClass)
@@ -313,6 +319,7 @@ function setClass (sat, pos) {
  * @return {Object}
  * @api private
  */
+
 function calcPosition (self, pos){
 	var target = self._targetBox
 	switch (pos) {
@@ -382,7 +389,8 @@ function calcPosition (self, pos){
  *
  * @api private
  */
-proto.cancelHide = function (){
+
+Satellite.prototype.cancelHide = function (){
 	this.classList.remove('satellite-hide')
 	clearTimeout(this._hide);
 	delete this._hide
@@ -398,7 +406,8 @@ proto.cancelHide = function (){
  * @return {Satellite}
  * @api public
  */
-proto.hide = function (ms){
+
+Satellite.prototype.hide = function (ms){
 	this.classList.add('satellite-hide')
 	// duration
 	if (ms) {
@@ -417,8 +426,9 @@ proto.hide = function (ms){
  * @return {Self}
  * @api
  */
-proto.remove = function(ms){
-	this.on('hide', 'clear')
+
+Satellite.prototype.remove = function(ms){
+	this.events.on('hide', 'clear')
 	this.hide(ms)
 	return this
 }

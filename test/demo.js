@@ -1,8 +1,9 @@
+
 var Satellite = require('satellite')
 
-Satellite.effect = 'fade'
+Satellite.effect = 'fade';
 
-Satellite.new('<img src="maru-cat.jpg" width="200" height="100" style="display:block;"/>')
+new Satellite('<img src="maru-cat.jpg" width="200" height="100" style="display:block;"/>')
 	.orbit(document.getElementById('maru'))
 	.show()
 
@@ -18,14 +19,14 @@ Array.apply(null, list).forEach(function(target){
 	target.addEventListener('mouseout', function(){
 		satellite.hide(200)
 	}, true)
-})
+});
 
-Satellite.new('<input type="search" placeholder="Search" />')
+new Satellite('<input type="search" placeholder="Search" />')
 	.prefer('north')
 	.attach(document.querySelector('#markup'), 100)
-	.cancelHideOnHover(100)
+	.cancelHideOnHover(100);
 
-Satellite.new('Some contents')
+new Satellite('Some contents')
 	.prefer('north')
 	.orbit(document.querySelector('#auto-north'))
 	.show();
@@ -33,9 +34,9 @@ Satellite.new('Some contents')
 new Satellite('Some Satellite contents')
 	.prefer('south')
 	.orbit(document.querySelector('#auto-south'))
-	.show()
+	.show();
 
-Satellite.new('I am a child of this node')
+new Satellite('I am a child of this node')
 	.appendTo(document.querySelector('#parent'))
 	.orbit(document.querySelector('#parent'))
 	.show()

@@ -3,21 +3,23 @@
   "repo": "jkroso/satellite",
   "description": "Position a container around the edge of another",
   "version": "0.1.0",
-  "keywords": ["tip"],
+  "keywords": [
+    "tip"
+  ],
   "dependencies": {
     "component/css": "*",
-    "jkroso/dom-emitter": "*",
-    "jkroso/domify": "*",
-    "jkroso/viewport": "*",
+    "jkroso/dom-emitter": "0.5.4",
+    "jkroso/domify": "305c528",
+    "jkroso/viewport": "0.1.2",
     "component/classes": "*",
-    "jkroso/position": "*"
+    "jkroso/position": "0.1.0"
   },
   "main": "src/index.js",
   "scripts": [
-	  "src/index.js",
+    "src/index.js",
     "src/template.js"
   ],
-  "styles":[
+  "styles": [
     "src/satellite.css"
   ],
   "license": "MIT"
