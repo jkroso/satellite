@@ -7,11 +7,11 @@
     "tip"
   ],
   "dependencies": {
-    "component/css": "*",
-    "jkroso/dom-emitter": "0.5.4",
-    "jkroso/domify": "305c528",
-    "jkroso/viewport": "0.1.2",
-    "component/classes": "*",
+    "component/css": "0.0.2",
+    "jkroso/dom-emitter": "0.6.0",
+    "jkroso/domify": "0.1.1",
+    "jkroso/viewport": "0.1.3",
+    "component/classes": "1.1.2",
     "jkroso/position": "0.1.0"
   },
   "main": "src/index.js",

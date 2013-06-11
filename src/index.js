@@ -1,12 +1,12 @@
 
 var DomEmitter = require('dom-emitter')
-  , domify = require('domify')
-  , viewPort = require('viewport')
-  , css = require('css')
-  , classes = require('classes')
   , position = require('position')
   , container = position.container
+  , viewPort = require('viewport')
+  , classes = require('classes')
   , tmpl = require('./template')
+  , domify = require('domify')
+  , css = require('css')
 
 module.exports = Satellite
 
@@ -28,13 +28,6 @@ function Satellite (content) {
 	this.prefer('north')
 	this.appendTo(document.body)
 }
-
-/**
- * Inherits from `Emitter.prototype`.
- */
-
-Satellite.prototype = Object.create(DomEmitter.prototype)
-Satellite.prototype.constructor = Satellite
 
 /**
  * Insert content into the satellite's body
@@ -218,7 +211,7 @@ Satellite.prototype.show = function () {
 	viewPort.on('scroll', this.reposition, this)
 	// Call resize incase something changed while the Satellite was hidden
 	this.onResize()
-	this.emit('show')
+	this.events.emit('show')
 	return this
 }
 
@@ -415,7 +408,7 @@ Satellite.prototype.hide = function (ms){
 	} else {
 		viewPort.off('resize', this.onResize, this)
 		viewPort.off('scroll', this.reposition, this)
-		this.emit('hide')
+		this.events.emit('hide')
 	}
 	return this
 }
