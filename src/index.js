@@ -115,7 +115,7 @@ Satellite.prototype.cancelHideOnHover = function(delay){
  *  - `fade`
  *
  * @param {String} [type]
- * @return {Self}
+ * @return {this}
  */
 
 Satellite.prototype.effect = function(type){
@@ -415,12 +415,18 @@ Satellite.prototype.hide = function (ms){
 /**
  * Hide then destroy
  *
- * @return {Self}
- * @api
+ * @param {Number} [ms]
+ * @return {this}
+ * @api public
  */
 
 Satellite.prototype.remove = function(ms){
-	this.events.on('hide', 'clear')
+	if (!this.view.parentElement) return this
+	this.events.on('hide', function(){
+		this.events.clear()
+		if (this._targetEvents) this._targetEvents.clear()
+		document.body.removeChild(this.view)
+	})
 	this.hide(ms)
 	return this
 }

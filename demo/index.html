@@ -55,6 +55,7 @@
 		<a href="#" id="auto-north">Auto</a>
 		<a href="#" id="auto-south">Auto</a>
 		<a href="#" id="maru">Maru</a>
+		<a href="#" id="once">once</a>
 	</div>
 	<div id="parent">
 		<a href="#" id="north">North</a>
@@ -79,6 +80,7 @@
 			target.addEventListener('mouseover', function(){
 				satellite.show()
 			}, true)
+
 			target.addEventListener('mouseout', function(){
 				satellite.hide(200)
 			}, true)
@@ -94,7 +96,7 @@
 			.orbit(document.querySelector('#auto-north'))
 			.show();
 
-		new Satellite('Some Satellite contents')
+		new Satellite('Some contents')
 			.prefer('south')
 			.orbit(document.querySelector('#auto-south'))
 			.show();
@@ -103,6 +105,17 @@
 			.appendTo(document.querySelector('#parent'))
 			.orbit(document.querySelector('#parent'))
 			.show()
+
+		var once = document.getElementById('once')
+		var sat = new Satellite('you\'ll never see me again')
+			.prefer('north')
+			.orbit(once)
+		once.addEventListener('mouseover', function(e){
+				sat.show()
+		})
+		once.addEventListener('mouseout', function(e){
+			sat.remove(100)
+		})
 
 	</script>
 </body>
