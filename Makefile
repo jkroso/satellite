@@ -1,20 +1,14 @@
-all: build Readme.md
 
-install:
-	@component install -d
+serve: node_modules
+	@node_modules/serve/bin/serve
 
-build:
-	@component build -dv
+node_modules: component.json
+	@packin install --meta deps.json,component.json,package.json \
+		--folder node_modules \
+		--executables \
+		--no-retrace
 
 clean:
-	@rm -rf build components
+	rm -r node_modules
 
-Readme.md: src/* docs/head.md docs/tail.md
-	@cat docs/head.md > Readme.md
-	@cat src/index.js\
-	 | sed s/.*=.$$//\
-	 | sed s/proto\./Satellite.prototype./\
-	 | dox -a | sed s/^\#\#/\#\#\#/ >> Readme.md
-	@cat docs/tail.md >> Readme.md
-
-.PHONY: clean all build install
+.PHONY: clean serve

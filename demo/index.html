@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Satellite Demo</title>
+	<style>
+		body {
+			padding: 60px;
+			font: 300 14px "Helvetica Neue", Helvetica, Arial;
+			margin: 0;
+			text-align: center;
+		}
+		html {
+			border: 10px solid #ccc;
+		}
+		a {
+			display: inline-block;
+			border: 1px solid #ddd;
+			padding: 10px;
+			color: black;
+			text-decoration: none;
+			margin: 55px;
+			width: 100px;
+			height: 100px;
+			line-height: 100px;
+			text-align: center;
+		}
+		#links {
+			min-width: 500px;
+		}
+		#parent {
+			padding: 50px;
+			display: inline-block;
+			border: 1px solid #eee;
+			margin: 55px auto;
+			position: relative;
+		}
+		.satellite {
+			border: 3px solid rgb(80,80,80);
+			border-radius: 3px;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="links">
+		<a href="#" id="north">North</a>
+		<a href="#" id="east">East</a>
+		<a href="#" id="west">West</a>
+		<a href="#" id="south">South</a>
+		<a href="#" id="north-west">North West</a>
+		<a href="#" id="north-east">North East</a>
+		<a href="#" id="south-west">South West</a>
+		<a href="#" id="south-east">South East</a>
+		<a href="#" id="markup">Markup</a>
+		<a href="#" id="auto-north">Auto</a>
+		<a href="#" id="auto-south">Auto</a>
+		<a href="#" id="maru">Maru</a>
+	</div>
+	<div id="parent">
+		<a href="#" id="north">North</a>
+	</div>
+	<script>
+
+		var Satellite = require('..')
+
+		Satellite.effect = 'fade';
+
+		new Satellite('<img src="maru-cat.jpg" width="200" height="100" style="display:block;"/>')
+			.orbit(document.getElementById('maru'))
+			.show()
+
+		var list = document.querySelectorAll('#north,#east,#west,#south,#north-west,#north-east,#south-west,#south-east')
+
+		Array.apply(null, list).forEach(function(target){
+			var satellite = new Satellite(target.textContent)
+			satellite.prefer(target.textContent.toLowerCase().split('-').join(' '))
+			satellite.orbit(target)
+
+			target.addEventListener('mouseover', function(){
+				satellite.show()
+			}, true)
+			target.addEventListener('mouseout', function(){
+				satellite.hide(200)
+			}, true)
+		});
+
+		new Satellite('<input type="search" placeholder="Search" />')
+			.prefer('north')
+			.attach(document.querySelector('#markup'), 100)
+			.cancelHideOnHover(100);
+
+		new Satellite('Some contents')
+			.prefer('north')
+			.orbit(document.querySelector('#auto-north'))
+			.show();
+
+		new Satellite('Some Satellite contents')
+			.prefer('south')
+			.orbit(document.querySelector('#auto-south'))
+			.show();
+
+		new Satellite('I am a child of this node')
+			.appendTo(document.querySelector('#parent'))
+			.orbit(document.querySelector('#parent'))
+			.show()
+
+	</script>
+</body>
+</html>
