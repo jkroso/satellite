@@ -24,6 +24,6 @@
   ],
   "license": "MIT",
   "development": {
-    "jkroso/serve": "1.3.0"
+    "jkroso/serve": "1.3.1"
   }
 }
