@@ -23,7 +23,7 @@ function Satellite (content) {
 	this.view = domify(tmpl)
 	this.events = new DomEmitter(this.view, this)
 	this.classList = classes(this.view)
-	if (content != null) this.append(content)
+	if (content != null) this.view.innerHTML = content
 	if (Satellite.effect) this.effect(Satellite.effect)
 	this.prefer('north')
 	this.appendTo(document.body)
@@ -38,11 +38,10 @@ function Satellite (content) {
 
 
 Satellite.prototype.append = function (content) {
-	var view = this.view
 	if (typeof content == 'string') {
 		content = domify(content)
 	}
-	view.appendChild(content)
+	this.view.appendChild(content)
 	return this
 }
 
@@ -57,14 +56,14 @@ Satellite.prototype.append = function (content) {
 
 Satellite.prototype.attach = function(el, delay){
 	this.orbit(el)
-	var events = this._targetEvents = new DomEmitter(el, this)
-	events.on('mouseover', function(){
-		this.show()
-		this.cancelHide()
-	})
-	events.on('mouseout', function(){
-		this.hide(delay)
-	})
+	this._targetEvents = new DomEmitter(el, this)
+		.on('mouseover', function(){
+			this.show()
+			this.cancelHide()
+		})
+		.on('mouseout', function(){
+			this.hide(delay)
+		})
 	return this
 }
 
